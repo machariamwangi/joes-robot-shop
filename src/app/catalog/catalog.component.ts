@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+
+import { Component, inject } from '@angular/core';
 import { IProduct } from './product.module';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-catalog',
@@ -9,8 +11,8 @@ import { IProduct } from './product.module';
 export class CatalogComponent {
    products: IProduct[];
    filter: string = '';
-   cart: IProduct[] = [];
-  constructor(){
+   //private  cartSvc : CartService = inject(CartService); //@Injectable() and Hierarchical DI
+  constructor(private  cartSvc : CartService){
     this.products =  [
       {
         id: 1,
@@ -197,8 +199,7 @@ export class CatalogComponent {
   }
 
   addToCart(product: IProduct) {
-    this.cart.push(product);
-    console.log(`product ${product.name} added to cart`);
+    this.cartSvc.add(product);
   }
 
 }
